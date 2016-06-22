@@ -1,25 +1,39 @@
 # -*- coding: utf-8 -*-
 from os.path import join, dirname
 from scrapy import Spider
+from scrapy.http import Request
 import experimental
 
 
 class RequestsSpider(Spider):
     name = "requests"
 
-    def start_requests(self):
+    def _requests(self):
         filename = join(dirname(experimental.__file__),
                         self.settings.get('SEEDS', ))
-        reqs = []
         for line in open(filename):
             try:
                 url = line.strip()
-                reqs.append(self.make_requests_from_url(url))
+                yield url
             except Exception as e:
                 self.logger.error('Problem link %s [%s]' % (line, str(e)))
-        return reqs
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        spider = super(RequestsSpider, cls).from_crawler(crawler)
+        spider.settings = crawler.settings
+        spider.g = spider._requests()
+        spider.start_urls = [
+            next(spider.g)
+        ]
+        return spider
 
     def parse(self, response):
-        return {
+        for x in range(10):
+            yield Request(
+                url=next(self.g)
+            )
+
+        yield {
             'url': response.url
         }
