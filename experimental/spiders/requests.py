@@ -10,12 +10,14 @@ class RequestsSpider(Spider):
     def start_requests(self):
         filename = join(dirname(experimental.__file__),
                         self.settings.get('SEEDS', ))
+        reqs = []
         for line in open(filename):
             try:
                 url = line.strip()
-                yield self.make_requests_from_url(url)
+                reqs.append(self.make_requests_from_url(url))
             except Exception as e:
                 self.logger.error('Problem link %s [%s]' % (line, str(e)))
+        return reqs
 
     def parse(self, response):
         return {

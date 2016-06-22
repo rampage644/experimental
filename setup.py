@@ -8,6 +8,6 @@ setup(
     packages     = find_packages(),
     entry_points = {'scrapy': ['settings = experimental.settings']},
     package_data = {
-        'experimental': ['company2M.txt']
+        'experimental': ['*.txt']
     },
 )
