@@ -3,3 +3,5 @@ projects:
 stacks:
   default: scrapy:1.1
 version: GIT
+
+requirements_file: requirements.txt

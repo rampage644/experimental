@@ -4,7 +4,7 @@ SPIDER_MODULES = ['experimental.spiders']
 NEWSPIDER_MODULE = 'experimental.spiders'
 
 CONCURRENT_REQUESTS = 100
-SEEDS = 'company2M.txt'
+SEEDS = 'company200k.txt'
 COOKIES_ENABLED = False
 RETRY_ENABLED = False
 DOWNLOAD_TIMEOUT = 15
